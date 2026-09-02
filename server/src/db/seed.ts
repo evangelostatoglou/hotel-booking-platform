@@ -51,6 +51,52 @@ type DemoBooking = {
   payment: DemoPayment | null;
 };
 
+type BasicRoomTypeImages = {
+  roomTypeName: string,
+  imageUrl: string,
+  altText: string | null,
+  sortOrder: number
+};
+
+const basicRoomTypeImages: BasicRoomTypeImages[] = [
+  {
+    roomTypeName: "Single",
+    imageUrl: "/images/rooms/single-1.jpg",
+    altText: "Single room",
+    sortOrder: 0
+  },
+  {
+    roomTypeName: "Single",
+    imageUrl: "/images/rooms/single-2.jpg",
+    altText: "Single room bed",
+    sortOrder: 1
+  },
+  {
+    roomTypeName: "Double",
+    imageUrl: "/images/rooms/double-1.jpg",
+    altText: "Double room",
+    sortOrder: 0
+  },
+  {
+    roomTypeName: "Twin",
+    imageUrl: "/images/rooms/twin-1.jpg",
+    altText: "Twin room",
+    sortOrder: 0
+  },
+  {
+    roomTypeName: "Suite",
+    imageUrl: "/images/rooms/suite-1.jpg",
+    altText: "Hotel suite",
+    sortOrder: 0
+  },
+  {
+    roomTypeName: "Suite",
+    imageUrl: "/images/rooms/suite-2.jpg",
+    altText: "Hotel suite living area",
+    sortOrder: 1
+  }
+];
+
 const demoUsers: DemoUser[] = [
   {
     firstName: "Admin",
@@ -452,6 +498,46 @@ export async function seedBasicDb (): Promise<void> {
         );
       }
     }
+
+
+    for (const image of basicRoomTypeImages) {
+      const roomTypeId = roomTypeIds.get(
+        image.roomTypeName
+      );
+
+      if (!roomTypeId) {
+        throw new Error(
+          `Room type ID not found: ${image.roomTypeName}`
+        );
+      }
+
+      await client.query(
+        `
+          INSERT INTO room_type_images (
+            room_type_id,
+            image_url,
+            alt_text,
+            sort_order
+          )
+          SELECT $1, $2, $3, $4
+          WHERE NOT EXISTS (
+            SELECT 1
+            FROM room_type_images
+            WHERE room_type_id = $1
+              AND image_url = $2
+          );
+        `,
+        [
+          roomTypeId,
+          image.imageUrl,
+          image.altText,
+          image.sortOrder
+        ]
+      );
+    }
+
+
+
 
     await client.query("COMMIT");
 

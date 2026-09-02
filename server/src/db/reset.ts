@@ -15,7 +15,8 @@ export async function resetDb(): Promise<void>{
                 payments,
                 users,
                 rooms,
-                room_types
+                room_types,
+                room_type_images
                 RESTART IDENTITY
                 CASCADE;
             `);//done

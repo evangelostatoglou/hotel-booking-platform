@@ -55,12 +55,12 @@ export async function runMigrations(): Promise<void> {
             await client.query(`
             CREATE TABLE IF NOT EXISTS room_types (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                name VARCHAR(20) UNIQUE,
+                name VARCHAR(40) UNIQUE,
                 description VARCHAR(1000),
                 capacity_adults INTEGER,
                 capacity_children INTEGER,
                 price MONEY,
-                bed_type VARCHAR(20),
+                bed_type VARCHAR(30),
                 size_m2 INTEGER
             );
             `);
@@ -101,6 +101,18 @@ export async function runMigrations(): Promise<void> {
                 PRIMARY KEY (room_types_id, amenities_id)
             );
             `);
+            await client.query(`
+            CREATE TABLE IF NOT EXISTS room_type_images (
+                id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                room_type_id INTEGER NOT NULL
+                REFERENCES room_types(id)
+                ON DELETE CASCADE,
+                image_url TEXT NOT NULL,
+                alt_text VARCHAR(150),
+                sort_order INTEGER NOT NULL DEFAULT 0
+            );
+            `);
+            
             await client.query("COMMIT");
     } catch {
         await client.query("ROLLBACK");

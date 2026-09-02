@@ -5,6 +5,10 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes";
+// import bookingsRouter from "./routes/auth.routes";
+// import adminRouter from "./routes/auth.routes";
+// import profileRouter from "./routes/auth.routes";
+import roomsRouter from "./routes/rooms.routes";
 
 const app = express();
 app.use(helmet());
@@ -28,5 +32,12 @@ app.get("/", (req, res) => {
 });
 
 app.use('/auth', authRouter);
+// app.use('/profile', profileRouter);
+// app.use('/bookings', bookingsRouter);
+app.use('/rooms', roomsRouter);
+// app.use('/admin', adminRouter);
+
+
+
 
 export default app;
