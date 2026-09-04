@@ -12,8 +12,8 @@ export async function runMigrations(): Promise<void> {
         await client.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                first_name VARCHAR(25),
-                last_name VARCHAR(25),
+                first_name VARCHAR(25) NOT NULL,
+                last_name VARCHAR(25) NOT NULL,
                 email VARCHAR(100) NOT NULL UNIQUE,
                 password_hash TEXT NOT NULL,
                 phone varchar(13),
@@ -42,7 +42,7 @@ export async function runMigrations(): Promise<void> {
             await client.query(`
             CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-                booking_id INTEGER NOT NULL REFERENCES bookings(id),
+                booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
                 amount MONEY,
                 method VARCHAR(20),
                 status VARCHAR(20),
@@ -78,7 +78,7 @@ export async function runMigrations(): Promise<void> {
             //create bookings_rooms table
             await client.query(`
             CREATE TABLE IF NOT EXISTS bookings_rooms (
-                bookings_id INTEGER NOT NULL REFERENCES bookings(id),
+                bookings_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
                 rooms_id INTEGER NOT NULL REFERENCES rooms(id),
                 PRIMARY KEY (bookings_id, rooms_id)
             );

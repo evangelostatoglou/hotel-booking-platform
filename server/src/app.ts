@@ -5,10 +5,11 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRouter from "./routes/auth.routes";
-// import bookingsRouter from "./routes/auth.routes";
+import bookingsRouter from "./routes/booking.routes";
 // import adminRouter from "./routes/auth.routes";
 // import profileRouter from "./routes/auth.routes";
 import roomsRouter from "./routes/rooms.routes";
+import { errorHandler } from "./middleware/error_handler.middleware";
 
 const app = express();
 app.use(helmet());
@@ -33,11 +34,11 @@ app.get("/", (req, res) => {
 
 app.use('/auth', authRouter);
 // app.use('/profile', profileRouter);
-// app.use('/bookings', bookingsRouter);
+app.use('/booking', bookingsRouter);
 app.use('/rooms', roomsRouter);
 // app.use('/admin', adminRouter);
 
 
-
+app.use(errorHandler);
 
 export default app;

@@ -23,7 +23,9 @@ export async function c_login(req: Request, res: Response, next: NextFunction): 
             res.status(401).json({message: "Invalid email or password"});
             return;
         }
-
+        // console.log("---controller");
+        // console.log(user);
+        
         // we now generate the JWT
         const token = createJWT(user);
 
@@ -54,9 +56,21 @@ export function c_logout(req: Request, res: Response, next: NextFunction): void{
     res.status(200).json({message: "Logout OK"});
 };
 
+
+
+
+
+
+
 export function c_getCurrentUser(req: Request, res: Response, next: NextFunction): void{
     res.status(200).json({user: res.locals.auth});
 };
+
+
+
+
+
+
 
 export async function c_registerUser(req: Request, res: Response, next: NextFunction): Promise<void>{
     
@@ -82,7 +96,7 @@ export async function c_registerUser(req: Request, res: Response, next: NextFunc
                 path: "/"
             });
 
-        res.status(200).json({message: "Login successful",
+        res.status(201).json({message: "Login successful",
             user: {
                 id: user.id,
                 firstName: user.firstName,

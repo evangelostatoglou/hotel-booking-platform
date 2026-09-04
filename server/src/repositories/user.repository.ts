@@ -1,17 +1,19 @@
 import { appPool } from "../config/database";
 
 export type AuthUser = {
-  id: number;
-  email: string;
-  password_hash: string;
-  role: string | null;
+  id: number,
+  email: string,
+  password_hash: string,
+  role: string | null,
+  firstName: string,
+  lastName: string
 };
 
 export type NewUser = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string | null;
+  firstName: string,
+  lastName: string,
+  email: string,
+  phone: string | null
 };
 
 export type FullUser = NewUser & {id: number, role: string, createdAt: Date}
@@ -23,7 +25,9 @@ export async function db_findUserByEmail(email: string): Promise<AuthUser | null
         id,
         email,
         password_hash,
-        role
+        role,
+        first_name as "firstName",
+        last_name as "lastName"
     FROM users
     WHERE email = $1
     LIMIT 1

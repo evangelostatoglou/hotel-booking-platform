@@ -61,40 +61,76 @@ type BasicRoomTypeImages = {
 const basicRoomTypeImages: BasicRoomTypeImages[] = [
   {
     roomTypeName: "Single",
-    imageUrl: "/images/rooms/single-1.jpg",
+    imageUrl: "/images/rooms/single-room.jpg",
     altText: "Single room",
-    sortOrder: 0
+    sortOrder: 0,
   },
   {
     roomTypeName: "Single",
-    imageUrl: "/images/rooms/single-2.jpg",
-    altText: "Single room bed",
-    sortOrder: 1
+    imageUrl: "/images/rooms/single-room-2.jpg",
+    altText: "Single room view",
+    sortOrder: 1,
+  },
+  {
+    roomTypeName: "Single",
+    imageUrl: "/images/rooms/single-room-3.jpg",
+    altText: "Single room detail",
+    sortOrder: 2,
   },
   {
     roomTypeName: "Double",
-    imageUrl: "/images/rooms/double-1.jpg",
+    imageUrl: "/images/rooms/double-room.jpg",
     altText: "Double room",
-    sortOrder: 0
+    sortOrder: 0,
+  },
+  {
+    roomTypeName: "Double",
+    imageUrl: "/images/rooms/double-room-2.jpg",
+    altText: "Double room view",
+    sortOrder: 1,
+  },
+  {
+    roomTypeName: "Double",
+    imageUrl: "/images/rooms/double-room-3.jpg",
+    altText: "Double room detail",
+    sortOrder: 2,
   },
   {
     roomTypeName: "Twin",
-    imageUrl: "/images/rooms/twin-1.jpg",
+    imageUrl: "/images/rooms/twin-room.jpg",
     altText: "Twin room",
-    sortOrder: 0
+    sortOrder: 0,
+  },
+  {
+    roomTypeName: "Twin",
+    imageUrl: "/images/rooms/twin-room-2.jpg",
+    altText: "Twin room view",
+    sortOrder: 1,
+  },
+  {
+    roomTypeName: "Twin",
+    imageUrl: "/images/rooms/twin-room-3.jpg",
+    altText: "Twin room detail",
+    sortOrder: 2,
   },
   {
     roomTypeName: "Suite",
-    imageUrl: "/images/rooms/suite-1.jpg",
+    imageUrl: "/images/rooms/suite.jpg",
     altText: "Hotel suite",
-    sortOrder: 0
+    sortOrder: 0,
   },
   {
     roomTypeName: "Suite",
     imageUrl: "/images/rooms/suite-2.jpg",
-    altText: "Hotel suite living area",
-    sortOrder: 1
-  }
+    altText: "Hotel suite view",
+    sortOrder: 1,
+  },
+  {
+    roomTypeName: "Suite",
+    imageUrl: "/images/rooms/suite-3.jpg",
+    altText: "Hotel suite detail",
+    sortOrder: 2,
+  },
 ];
 
 const demoUsers: DemoUser[] = [
