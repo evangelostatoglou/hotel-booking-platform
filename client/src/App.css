@@ -1,0 +1,821 @@
+/* Global design variables used throughout the website. */
+:root {
+  --header-height: 58px; /* Sets the fixed header height. */
+  --navy: #1b5260;
+  --sand: #f6f0e5;
+  --terracotta: #c96f4a;
+  --white: #fff;
+  --muted: #756f67;
+  --border: #d9d2c9;
+}
+
+/* Main application wrapper. */
+.app {
+  min-height: 100vh; /* Makes the application at least as tall as the screen. */
+}
+/* Anchor targets stop below the fixed header. */
+section[id] {
+  scroll-margin-top: 90px; /* Leaves space above anchored sections. */
+}
+
+/* Shared section spacing. */
+.section,
+.simple-page {
+  padding: 110px 8%; /* Adds vertical and horizontal breathing room. */
+}
+
+/* Removes the browser's default top margin. */
+h1,
+h2,
+h3,
+p {
+  margin-top: 0; /* Lets our rules control spacing. */
+}
+/* Shared heading weight. */
+h1,
+h2,
+h3 {
+  font-weight: 400; /* Creates the light editorial style. */
+}
+/* Main headings. */
+h1 {
+  max-width: 700px; /* Prevents headings from becoming too wide. */
+  margin-bottom: 24px; /* Adds space below the heading. */
+  font-size: clamp(3rem, 7vw, 6.5rem); /* Scales the heading with the screen. */
+  line-height: 0.98; /* Keeps large lines close together. */
+}
+/* Section headings. */
+h2 {
+  max-width: 700px; /* Limits heading width. */
+  margin-bottom: 24px; /* Adds space below the heading. */
+  font-size: clamp(2.3rem, 5vw, 4.5rem); /* Makes the heading responsive. */
+  line-height: 1; /* Keeps the heading compact. */
+}
+/* Small uppercase labels. */
+.eyebrow {
+  margin-bottom: 18px; /* Separates the label from the heading. */
+  color: var(--terracotta); /* Uses the warm accent. */
+  font-family: Arial, sans-serif; /* Contrasts with serif headings. */
+  font-size: 0.75rem; /* Keeps the label small. */
+  font-weight: bold; /* Makes the label visible. */
+  letter-spacing: 0.18em; /* Spreads out the letters. */
+}
+
+/* Shared button properties. */
+.book-button,
+.search-button {
+  display: inline-block; /* Allows padding on links and buttons. */
+  padding: 13px 22px; /* Adds space inside buttons. */
+  border: 0; /* Removes the default border. */
+  color: var(--white); /* Makes button text readable. */
+  cursor: pointer; /* Shows that the element is clickable. */
+  font: inherit; /* Uses the surrounding font. */
+}
+.book-button {
+  background: var(--terracotta); /* Uses the warm booking color. */
+}
+.search-button {
+  background: var(--navy); /* Uses the darker action color. */
+}
+.book-button:hover {
+  opacity: 0.8; /* Gives hover feedback. */
+}
+
+/* Fixed website header. */
+.site-header {
+  position: fixed; /* Keeps the header visible during scrolling. */
+  z-index: 10; /* Places it above page content. */
+  top: 0; /* Anchors it to the top. */
+  width: 100%; /* Spans the viewport. */
+  height: var(--header-height); /* Uses the shared header height. */
+  display: flex; /* Places header items in a row. */
+  align-items: center; /* Vertically centers items. */
+  justify-content: space-between; /* Separates left and right content. */
+  padding: 17px 5%; /* Adds inner header spacing. */
+  color: var(--white); /* Makes header text light. */
+  background: rgba(27, 82, 96, 0.9); /* Adds a translucent sea background. */
+  backdrop-filter: blur(4px); /* Blurs content behind the header. */
+}
+/* Menu control. */
+.menu-button {
+  padding: 5px 5px; /* Gives the control a click area. */
+  border: 0; /* Removes the browser border. */
+  background: transparent; /* Shows the header background. */
+  color: inherit; /* Uses the header color. */
+  cursor: pointer; /* Shows that it opens the menu. */
+  font-size: 1.4rem; /* Makes the icon visible. */
+}
+.menu-icon {
+  margin-right: 8px; /* Separates icon and label. */
+}
+/* Centered hotel logo. */
+.logo {
+  position: absolute; /* Allows independent centering. */
+  left: 50%; /* Moves the logo to the middle. */
+  transform: translateX(-50%); /* Centers the logo itself. */
+  font-size: 1.5rem; /* Sets the logo size. */
+  letter-spacing: 0.08em; /* Spreads out the logo letters. */
+  text-transform: uppercase; /* Displays uppercase text. */
+  white-space: nowrap; /* Prevents logo wrapping. */
+}
+/* Right-side navigation. */
+.header-actions {
+  display: flex; /* Places navigation links in a row. */
+  align-items: center; /* Vertically centers links. */
+  gap: 24px; /* Adds space between links. */
+}
+/* Compact user control used on tablet and mobile screens. */
+.user-menu {
+  position: relative; /* Anchors the dropdown to the initials button. */
+  display: block; /* Shows the initials menu on every screen size. */
+}
+/* User initials button. */
+.user-menu-button {
+  padding: 9px 10px; /* Creates a comfortable click area. */
+  border: 1px solid #ffffff88; /* Separates the button from the header. */
+  border-radius: 50%; /* Makes the initials button circular. */
+  background: transparent; /* Keeps the header visible behind the button. */
+  color: inherit; /* Uses the light header text color. */
+  cursor: pointer; /* Shows that the button opens a menu. */
+  font: inherit; /* Uses the header font. */
+  font-size: 0.85rem; /* Keeps the initials compact. */
+  font-weight: bold; /* Makes the initials easy to read. */
+}
+/* Dropdown links and logout button. */
+.user-menu-dropdown {
+  position: absolute; /* Places the dropdown below the initials button. */
+  top: calc(100% + 12px); /* Adds a small gap below the button. */
+  right: 0; /* Aligns the dropdown with the right side of the button. */
+  display: grid; /* Stacks the options vertically. */
+  min-width: 150px; /* Gives each option enough room. */
+  padding: 8px; /* Adds space around the options. */
+  background: var(--white); /* Makes the dropdown easy to read. */
+  box-shadow: 0 10px 30px #0002; /* Gives the dropdown visual depth. */
+}
+.user-menu-dropdown a,
+.user-menu-dropdown button {
+  padding: 10px 12px; /* Creates a larger option click area. */
+  border: 0; /* Removes the browser button border. */
+  background: transparent; /* Keeps the dropdown background consistent. */
+  color: var(--navy); /* Makes dropdown text readable. */
+  cursor: pointer; /* Shows that each option is interactive. */
+  font: inherit; /* Uses the website font. */
+  text-align: left; /* Aligns all options consistently. */
+}
+.user-menu-dropdown a:hover,
+.user-menu-dropdown button:hover {
+  background: var(--sand); /* Highlights the option under the pointer. */
+}
+/* Click-open menu panel. */
+.mobile-menu {
+  position: absolute; /* Positions the panel under the header. */
+  top: 58px; /* Places it below the header. */
+  left: 5%; /* Aligns it with the menu button. */
+  display: grid; /* Stacks links vertically. */
+  gap: 18px; /* Adds space between links. */
+  min-width: 190px; /* Gives links room to breathe. */
+  padding: 24px; /* Adds inner panel spacing. */
+  background: var(--white); /* Makes the panel opaque. */
+  color: var(--navy); /* Uses dark text. */
+  box-shadow: 0 10px 30px #0002; /* Adds panel depth. */
+  animation: slide-in 0.2s ease-out; /* Animates opening. */
+}
+/* Shared close controls. */
+.menu-close {
+  border: 0; /* Removes default borders. */
+  background: transparent; /* Keeps the surrounding background. */
+  cursor: pointer; /* Shows that controls are clickable. */
+}
+.menu-close {
+  position: absolute; /* Positions the close icon in the panel. */
+  top: 12px; /* Adds top spacing. */
+  right: 16px; /* Adds right spacing. */
+  color: var(--navy); /* Makes the icon visible. */
+  font-size: 1.8rem; /* Makes it easy to click. */
+}
+/* Menu opening animation. */
+@keyframes slide-in {
+  from {
+    opacity: 0; /* Starts transparent. */
+    transform: translateY(-8px); /* Starts slightly above. */
+  }
+  to {
+    opacity: 1; /* Ends fully visible. */
+    transform: translateY(0); /* Ends in normal position. */
+  }
+}
+
+/* Homepage hero section. */
+.hero {
+  min-height: calc(
+    100svh - var(--header-height)
+  ); /* Fills the screen below the header. */
+  display: flex; /* Allows hero content positioning. */
+  align-items: center; /* Centers content vertically. */
+  padding: 150px 8% 100px; /* Adds space around hero content. */
+  color: var(--white); /* Makes hero text light. */
+  background:
+    linear-gradient(rgba(27, 82, 96, 0.4), rgba(27, 82, 96, 0.6)),
+    url("/images/rooms/hotel-hero.jpg") center / cover; /* Adds the image and contrast overlay. */
+}
+.hero-content {
+  max-width: 650px; /* Keeps hero text readable. */
+}
+
+.hero .eyebrow {
+  color: #f5c7ae; /* Uses a light accent on the image. */
+}
+.hero-content > p:not(.eyebrow) {
+  max-width: 430px; /* Limits paragraph width. */
+  margin-bottom: 34px; /* Separates text from the button. */
+  font-family: Arial, sans-serif; /* Uses the body font. */
+  font-size: 1.05rem; /* Sets comfortable text size. */
+  line-height: 1.7; /* Adds readable line spacing. */
+}
+
+/* Booking and authentication form layout. */
+.simple-form {
+  display: grid; /* Arranges form controls in a grid. */
+  gap: 16px; /* Separates form controls. */
+}
+/* Form labels. */
+.simple-form label {
+  display: grid; /* Places labels above controls. */
+  gap: 8px; /* Separates label and input. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses readable form text. */
+  font-size: 0.75rem; /* Keeps labels compact. */
+  letter-spacing: 0.08em; /* Spreads out labels. */
+  text-transform: uppercase; /* Gives labels a consistent style. */
+}
+/* Form controls. */
+.simple-form input,
+.simple-form select {
+  width: 100%; /* Fills the available column. */
+  padding: 12px; /* Adds control space. */
+  border: 1px solid var(--border); /* Adds a subtle outline. */
+  background: var(--sand); /* Uses the warm background. */
+  color: var(--navy); /* Makes input text readable. */
+  font: inherit; /* Uses the surrounding font. */
+}
+/* Intro and room cards. */
+.intro {
+  max-width: 900px; /* Limits the introduction width. */
+}
+.intro > p:last-child,
+.location > p:not(.eyebrow),
+.simple-page > p:not(.eyebrow) {
+  max-width: 500px; /* Keeps descriptions readable. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  line-height: 1.7; /* Adds readable line spacing. */
+}
+.section-heading {
+  display: flex; /* Places heading and link in a row. */
+  align-items: end; /* Aligns their lower edges. */
+  justify-content: space-between; /* Separates both sides. */
+  gap: 30px; /* Adds space when narrow. */
+  margin-bottom: 45px; /* Separates heading from cards. */
+}
+.section-heading > span {
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+}
+.room-grid {
+  display: grid; /* Enables the card layout. */
+  grid-template-columns: repeat(4, 1fr); /* Creates four equal columns. */
+  gap: 18px; /* Separates cards. */
+}
+.room-card {
+  overflow: hidden; /* Keeps images inside the card. */
+  background: var(--white); /* Gives cards a white background. */
+}
+.room-card img {
+  width: 100%; /* Fills the card width. */
+  height: 300px; /* Keeps card images consistent. */
+  display: block; /* Removes inline image spacing. */
+  object-fit: cover; /* Crops without distortion. */
+}
+.room-card-content {
+  padding: 24px; /* Adds inner card spacing. */
+}
+.room-card h3 {
+  margin-bottom: 12px; /* Separates title from description. */
+  font-size: 1.6rem; /* Sets room title size. */
+}
+.room-card p:not(.room-guests) {
+  min-height: 70px; /* Aligns card links. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.9rem; /* Keeps descriptions compact. */
+  line-height: 1.5; /* Adds readable spacing. */
+}
+.room-guests {
+  margin-bottom: 8px; /* Separates capacity from title. */
+  color: var(--terracotta); /* Highlights capacity. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.75rem; /* Keeps capacity small. */
+  text-transform: uppercase; /* Gives capacity a label style. */
+}
+/* Nightly room price shown on room cards and detail pages. */
+.room-price {
+  margin-bottom: 18px; /* Separates price from the booking link. */
+  color: var(--navy); /* Highlights the nightly price. */
+  font-family: Arial, sans-serif; /* Uses readable price text. */
+  font-weight: bold; /* Makes the price easy to find. */
+}
+.text-button {
+  padding: 0; /* Removes button padding. */
+  border: 0; /* Removes the border. */
+  background: transparent; /* Makes it look like a link. */
+  color: var(--terracotta); /* Uses the accent color. */
+  cursor: pointer; /* Shows it is clickable. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.9rem; /* Sets link size. */
+}
+
+/* Experience, location, and footer. */
+.feature-section {
+  display: grid; /* Creates two content columns. */
+  grid-template-columns: 1fr 1fr; /* Gives both sides equal space. */
+  gap: 80px; /* Separates content blocks. */
+  padding: 100px 8%; /* Adds section spacing. */
+  color: var(--white); /* Makes text light. */
+  background: var(--navy); /* Uses the dark sea color. */
+}
+.feature-section > p {
+  max-width: 430px; /* Limits description width. */
+  align-self: end; /* Aligns description at the bottom. */
+  color: #c8d0d5; /* Uses soft light text. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  line-height: 1.8; /* Adds readable spacing. */
+}
+.location {
+  text-align: center; /* Centers location content. */
+}
+.location h2 {
+  margin-right: auto; /* Centers the heading block. */
+  margin-left: auto; /* Centers the heading block. */
+}
+.location > p:not(.eyebrow) {
+  margin: 0 auto 30px; /* Centers text and adds bottom space. */
+}
+.site-footer {
+  display: flex; /* Places footer items in a row. */
+  justify-content: space-between; /* Separates footer items. */
+  padding: 30px 8%; /* Adds footer spacing. */
+  color: var(--white); /* Makes footer text light. */
+  background: var(--navy); /* Uses dark sea color. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.8rem; /* Keeps footer text small. */
+}
+
+/* Inner pages and forms. */
+.page-content {
+  min-height: 100vh; /* Makes inner pages fill the screen. */
+  padding-top: 90px; /* Prevents content behind the header. */
+}
+.simple-page {
+  max-width: 1100px; /* Limits inner page width. */
+  min-height: 65vh; /* Gives short pages enough height. */
+  margin: 0 auto; /* Centers the page. */
+}
+.simple-page > h1 {
+  max-width: 800px; /* Keeps inner heading readable. */
+  margin-bottom: 32px; /* Adds space below heading. */
+}
+.auth-card {
+  max-width: 650px; /* Limits authentication width. */
+}
+.simple-form {
+  max-width: 460px; /* Keeps forms comfortable. */
+  margin-top: 30px; /* Separates form from intro text. */
+}
+.simple-form .search-button {
+  justify-self: start; /* Keeps the button at natural width. */
+}
+.page-message {
+  margin-top: 25px; /* Adds space above page feedback. */
+  color: var(--terracotta); /* Highlights feedback. */
+}
+/* Keeps each server validation error on its own line. */
+.form-error-message {
+  white-space: pre-line; /* Displays the line breaks between field errors. */
+}
+.auth-switch {
+  margin-top: 25px; /* Separates the alternate auth link. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+}
+.auth-switch a {
+  color: var(--terracotta); /* Highlights the auth link. */
+}
+/* Booking history shown on the profile page. */
+.profile-bookings {
+  margin-top: 60px; /* Separates booking history from profile details. */
+}
+.profile-bookings h2 {
+  margin-bottom: 24px; /* Separates the heading from the booking list. */
+}
+/* Stacks the user's bookings. */
+.booking-list {
+  display: grid; /* Creates one card per booking. */
+  gap: 16px; /* Separates booking cards. */
+  margin-bottom: 35px; /* Separates the list from the booking link. */
+}
+/* Details for one booking. */
+.booking-card {
+  padding: 20px; /* Adds space inside the card. */
+  border: 1px solid var(--border); /* Defines the booking card. */
+  background: var(--white); /* Keeps the card readable. */
+  font-family: Arial, sans-serif; /* Uses readable booking text. */
+  line-height: 1.5; /* Adds space between details. */
+}
+.booking-card-heading {
+  display: flex; /* Places booking title and status in one row. */
+  align-items: center; /* Vertically centers the heading row. */
+  justify-content: space-between; /* Pushes status to the right. */
+  gap: 16px; /* Keeps title and status separated. */
+  margin-bottom: 12px; /* Separates heading from booking details. */
+}
+.booking-card h3 {
+  margin: 0; /* Removes the default heading margin. */
+  color: var(--navy); /* Uses the main heading color. */
+  font-family: Georgia, serif; /* Matches the hotel headings. */
+}
+.booking-card p {
+  margin: 6px 0; /* Separates booking detail lines. */
+}
+.booking-status {
+  padding: 4px 9px; /* Creates a compact status label. */
+  border-radius: 999px; /* Makes the status label pill-shaped. */
+  font-size: 0.75rem; /* Keeps the status secondary. */
+  text-transform: capitalize; /* Displays status in natural case. */
+}
+.booking-status-confirmed {
+  background: #d8eadf; /* Gives confirmed bookings a positive color. */
+  color: #23613b; /* Keeps confirmed text readable. */
+}
+.booking-status-pending {
+  background: #f5e5b9; /* Gives pending bookings a warm color. */
+  color: #775a14; /* Keeps pending text readable. */
+}
+.booking-status-cancelled {
+  background: #f1d1cd; /* Gives cancelled bookings a soft warning color. */
+  color: #8a3027; /* Keeps cancelled text readable. */
+}
+/* Shows when an API request is in progress. */
+.search-button:disabled {
+  opacity: 0.6; /* Fades the disabled button. */
+  cursor: wait; /* Shows that the app is waiting. */
+}
+/* Room details gallery. */
+.room-detail {
+  display: grid; /* Places details and gallery in columns. */
+  grid-template-columns: minmax(240px, 0.8fr) minmax(0, 1.6fr); /* Gives the gallery more space. */
+  gap: 60px; /* Separates details and gallery. */
+  align-items: center; /* Vertically centers both columns. */
+}
+.room-detail > div:not(.room-gallery) {
+  grid-column: 1; /* Places details on the left. */
+  grid-row: 1; /* Keeps details in the first row. */
+}
+.room-gallery {
+  position: relative; /* Allows controls over the image. */
+  grid-column: 2; /* Places gallery on the right. */
+  grid-row: 1; /* Keeps gallery in the first row. */
+}
+.room-gallery > img {
+  width: 100%; /* Fills the gallery width. */
+  height: 560px; /* Gives photos visual importance. */
+  max-height: 600px; /* Prevents extreme height. */
+  display: block; /* Removes inline spacing. */
+  object-fit: cover; /* Crops without distortion. */
+}
+.gallery-arrow {
+  position: absolute; /* Places arrow over the image. */
+  top: 50%; /* Centers arrow vertically. */
+  width: 42px; /* Sets arrow width. */
+  height: 42px; /* Sets arrow height. */
+  border: 0; /* Removes default border. */
+  border-radius: 50%; /* Makes the button circular. */
+  background: rgba(255, 255, 255, 0.9); /* Keeps it readable. */
+  color: var(--navy); /* Uses dark arrow text. */
+  font-size: 2rem; /* Makes arrow visible. */
+  line-height: 1; /* Centers arrow symbol. */
+  transform: translateY(-50%); /* Corrects vertical centering. */
+  cursor: pointer; /* Shows it is clickable. */
+}
+.gallery-arrow-left {
+  left: 16px; /* Places previous arrow near left edge. */
+}
+.gallery-arrow-right {
+  right: 16px; /* Places next arrow near right edge. */
+}
+.gallery-counter {
+  position: absolute; /* Places counter over image. */
+  right: 16px; /* Aligns counter right. */
+  bottom: 16px; /* Aligns counter bottom. */
+  padding: 6px 10px; /* Adds counter spacing. */
+  background: rgba(27, 82, 96, 0.8); /* Makes counter readable. */
+  color: var(--white); /* Makes counter text light. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.8rem; /* Keeps counter small. */
+}
+
+/* Amenities list. */
+.amenities-section {
+  min-height: auto; /* Fits the section to its content. */
+  padding-top: 0; /* Avoids extra top space. */
+}
+.amenities-grid {
+  display: grid; /* Enables the amenity grid. */
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* Creates two columns. */
+  gap: 1px; /* Creates thin grid lines. */
+  margin-top: 35px; /* Separates grid from heading. */
+  background: var(--border); /* Shows through as grid lines. */
+}
+.amenity-item {
+  min-height: 110px; /* Gives cells consistent height. */
+  padding: 22px; /* Adds cell spacing. */
+  background: var(--white); /* Gives cells a clean background. */
+}
+.amenity-item h3 {
+  margin-bottom: 8px; /* Separates name from description. */
+  font-size: 1.15rem; /* Sets amenity title size. */
+}
+.amenity-item p {
+  margin: 0; /* Removes paragraph default margin. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.85rem; /* Keeps descriptions compact. */
+  line-height: 1.5; /* Adds readable spacing. */
+}
+
+/* List of room choices in the booking form. */
+.room-selection-list {
+  display: grid; /* Stacks each selected room. */
+  gap: 20px; /* Separates room choices. */
+}
+/* One room choice with its type and guest counters. */
+.room-selection {
+  display: grid; /* Stacks the room fields. */
+  gap: 14px; /* Separates the room fields. */
+  padding: 20px; /* Adds space inside the room choice. */
+  border: 1px solid var(--border); /* Defines the room choice area. */
+  background: var(--white); /* Keeps the room choice distinct. */
+}
+/* Room number and remove button row. */
+.room-selection-heading {
+  display: flex; /* Places the title and remove button in one row. */
+  align-items: center; /* Vertically centers the row. */
+  justify-content: space-between; /* Pushes the remove button right. */
+  gap: 16px; /* Keeps the controls separated. */
+}
+.room-selection-heading h2 {
+  margin: 0; /* Removes the default heading margin. */
+  font-size: 1.5rem; /* Keeps room headings secondary. */
+}
+/* Room type radio choices for one selected room. */
+.room-type-options {
+  display: grid; /* Stacks the available radio choices. */
+  gap: 10px; /* Separates each choice. */
+  margin: 0; /* Removes the browser fieldset margin. */
+  padding: 16px; /* Adds space around the choices. */
+  border: 1px solid var(--border); /* Defines the radio group. */
+}
+.room-type-options legend {
+  padding: 0 6px; /* Gives the legend breathing room. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses readable form text. */
+  font-size: 0.75rem; /* Keeps the legend compact. */
+  letter-spacing: 0.08em; /* Spreads out the legend letters. */
+  text-transform: uppercase; /* Matches the other form labels. */
+}
+/* One selectable room type. */
+.room-type-option {
+  display: flex !important; /* Places the radio and name on one line. */
+  align-items: center; /* Vertically centers the radio and text. */
+  gap: 10px !important; /* Separates the radio from its label. */
+  color: var(--navy) !important; /* Uses the main text color. */
+  cursor: pointer; /* Shows that the whole label is clickable. */
+  font-family: Arial, sans-serif !important; /* Uses readable option text. */
+  font-size: 0.95rem !important; /* Makes options easy to read. */
+  letter-spacing: normal !important; /* Removes uppercase label spacing. */
+  text-transform: none !important; /* Keeps room names natural. */
+}
+.room-type-option input {
+  width: auto; /* Keeps the radio button at its normal size. */
+  margin: 0; /* Aligns the radio with the text. */
+  padding: 0; /* Removes form control padding. */
+}
+/* Buttons for adding or removing room choices. */
+.remove-room-button,
+.add-room-button {
+  width: fit-content; /* Keeps the button at its natural width. */
+  padding: 9px 14px; /* Creates a comfortable click area. */
+  border: 1px solid var(--terracotta); /* Uses the accent outline. */
+  background: transparent; /* Keeps the page background visible. */
+  color: var(--terracotta); /* Uses the accent text color. */
+  cursor: pointer; /* Shows that the button is interactive. */
+  font: inherit; /* Uses the website font. */
+}
+/* Fades the add button when the booking limit is reached. */
+.add-room-button:disabled {
+  opacity: 0.5; /* Shows that the guest limit was reached. */
+  cursor: not-allowed; /* Shows that the button is unavailable. */
+}
+/* Adult and child counters for one room. */
+.room-guest-counters {
+  display: grid; /* Arranges the counters in columns. */
+  grid-template-columns: repeat(2, 1fr); /* Gives adults and children equal space. */
+  gap: 12px; /* Separates the counters. */
+}
+/* Capacity explanation below each room choice. */
+.room-capacity-note {
+  margin: 0; /* Removes extra paragraph space. */
+  color: var(--muted); /* Uses secondary text color. */
+  font-family: Arial, sans-serif; /* Uses readable body text. */
+  font-size: 0.85rem; /* Keeps the note secondary. */
+  line-height: 1.5; /* Makes the note easy to read. */
+}
+/* Cost breakdown shown before the reservation button. */
+.booking-summary {
+  display: grid; /* Stacks the cost lines. */
+  gap: 10px; /* Separates each cost line. */
+  padding: 20px; /* Adds space around the summary. */
+  border: 1px solid var(--border); /* Defines the summary area. */
+  background: var(--sand); /* Gives the total a subtle highlight. */
+  color: var(--navy); /* Uses the main text color. */
+  font-family: Arial, sans-serif; /* Uses readable summary text. */
+  line-height: 1.5; /* Makes the cost breakdown easy to scan. */
+}
+.booking-summary h2 {
+  margin: 0; /* Removes the default heading margin. */
+  font-family: Georgia, serif; /* Matches the hotel headings. */
+}
+.booking-summary p {
+  margin: 0; /* Keeps summary lines close together. */
+}
+.booking-summary strong {
+  padding-top: 10px; /* Separates the final total. */
+  border-top: 1px solid var(--border); /* Emphasizes the final total. */
+  font-size: 1.1rem; /* Makes the final amount prominent. */
+}
+
+/* Full-screen confirmation popup after a successful reservation. */
+.confirmation-popup {
+  position: fixed; /* Keeps the popup visible over the page. */
+  z-index: 20; /* Places the popup above the header and content. */
+  inset: 0; /* Covers the viewport. */
+  display: grid; /* Centers the confirmation card. */
+  place-items: center; /* Places the card in the middle. */
+  padding: 20px; /* Keeps the card away from small screen edges. */
+  background: #1b5260aa; /* Dims the page behind the popup. */
+}
+.confirmation-card {
+  width: min(100%, 460px); /* Prevents the card becoming too wide. */
+  padding: 35px; /* Adds space inside the card. */
+  background: var(--white); /* Keeps the confirmation readable. */
+  color: var(--navy); /* Uses the main text color. */
+  text-align: center; /* Centers the confirmation message. */
+}
+.confirmation-card h2 {
+  margin-bottom: 16px; /* Separates the title from the booking ID. */
+}
+.confirmation-card p {
+  margin: 8px 0; /* Separates the confirmation details. */
+  font-family: Arial, sans-serif; /* Uses readable confirmation text. */
+}
+
+/* Guest counters. */
+.guest-counter {
+  display: flex; /* Places label and controls in one row. */
+  align-items: center; /* Vertically centers them. */
+  justify-content: space-between; /* Pushes controls right. */
+  padding: 13px; /* Adds counter spacing. */
+  border: 1px solid var(--border); /* Adds a subtle border. */
+  background: var(--white); /* Keeps the counter distinct. */
+  color: var(--muted); /* Uses secondary label text. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+}
+.counter-controls {
+  display: flex; /* Places controls in a row. */
+  align-items: center; /* Vertically centers controls. */
+  gap: 16px; /* Separates controls. */
+}
+.counter-controls button {
+  width: 30px; /* Sets control width. */
+  height: 30px; /* Sets control height. */
+  border: 1px solid var(--terracotta); /* Adds accent outline. */
+  border-radius: 50%; /* Makes controls circular. */
+  background: transparent; /* Keeps background visible. */
+  color: var(--terracotta); /* Colors symbols with accent. */
+  font-size: 1.2rem; /* Makes symbols readable. */
+  line-height: 1; /* Centers symbols. */
+  cursor: pointer; /* Shows controls are clickable. */
+}
+.counter-controls button:disabled {
+  border-color: #cfc8bf; /* Fades disabled outline. */
+  color: #cfc8bf; /* Fades disabled symbol. */
+  cursor: not-allowed; /* Shows the limit was reached. */
+}
+.counter-controls strong {
+  min-width: 16px; /* Reserves number space. */
+  color: var(--navy); /* Makes number prominent. */
+  text-align: center; /* Centers number. */
+}
+.guest-limit-message {
+  margin: 0; /* Removes extra paragraph margin. */
+  color: var(--terracotta); /* Highlights capacity message. */
+  font-family: Arial, sans-serif; /* Uses body text. */
+  font-size: 0.85rem; /* Keeps message secondary. */
+  line-height: 1.5; /* Makes message readable. */
+}
+
+/* Tablet layout. */
+@media (max-width: 900px) {
+  .room-grid {
+    grid-template-columns: repeat(2, 1fr); /* Changes cards to two columns. */
+  }
+}
+
+/* Smaller screens keep the logo in its own grid column. */
+@media (max-width: 760px) {
+  .site-header {
+    display: grid; /* Creates separate spaces for menu, logo, and actions. */
+    grid-template-columns: auto 1fr auto; /* Prevents the header areas overlapping. */
+    gap: 12px; /* Adds space between the three header areas. */
+    height: auto; /* Allows the header to grow if its contents need more room. */
+    min-height: var(--header-height); /* Keeps the header at least its normal height. */
+  }
+  .logo {
+    position: static; /* Lets the logo stay inside the middle grid column. */
+    transform: none; /* Removes the desktop centering transform. */
+    justify-self: center; /* Centers the logo in its grid column. */
+    font-size: 1.15rem; /* Makes the logo fit smaller screens. */
+  }
+  .header-actions {
+    justify-content: flex-end; /* Keeps actions aligned to the right. */
+    gap: 12px; /* Reduces space between right-side actions. */
+  }
+  .header-actions a:not(.book-button) {
+    display: none; /* The menu still provides access to secondary links. */
+  }
+}
+
+/* Mobile layout. */
+@media (max-width: 600px) {
+  .site-header {
+    padding: 17px 20px; /* Reduces mobile header spacing. */
+  }
+  .logo {
+    font-size: 1.05rem; /* Fits the logo on small screens. */
+  }
+  .header-actions {
+    gap: 10px; /* Reduces action spacing. */
+  }
+  .header-actions a:not(.book-button) {
+    display: none; /* Hides secondary links on mobile. */
+  }
+  .hero {
+    min-height: calc(
+      100svh - var(--header-height)
+    ); /* Keeps the hero screen-sized. */
+    padding: 130px 7% 80px; /* Reduces hero spacing. */
+  }
+  .section,
+  .simple-page,
+  .feature-section {
+    padding: 75px 7%; /* Reduces section spacing. */
+  }
+  .section-heading,
+  .feature-section {
+    display: block; /* Stacks these layouts. */
+  }
+  .simple-form .search-button {
+    margin-top: 14px; /* Separates stacked controls. */
+  }
+  .room-grid {
+    grid-template-columns: 1fr; /* Shows one card per row. */
+  }
+  .room-detail {
+    grid-template-columns: 1fr; /* Stacks details and gallery. */
+  }
+  .room-detail > div:not(.room-gallery),
+  .room-gallery {
+    grid-column: auto; /* Removes desktop column placement. */
+    grid-row: auto; /* Removes desktop row placement. */
+  }
+  .room-guest-counters {
+    grid-template-columns: 1fr; /* Stacks counters on narrow screens. */
+  }
+  .room-gallery > img {
+    height: 320px; /* Reduces gallery height on mobile. */
+  }
+  .amenities-grid {
+    grid-template-columns: 1fr; /* Shows one amenity per row. */
+  }
+  .site-footer {
+    padding: 25px 7%; /* Reduces footer spacing. */
+  }
+}

@@ -1,6 +1,12 @@
 const request = require("supertest");
 import app from "../src/app";
 import { appPool } from "../src/config/database";
+import {
+  describe,
+  test,
+  expect,
+  afterAll
+} from "@jest/globals";
 
 afterAll(async () => {await appPool.end()});
 
