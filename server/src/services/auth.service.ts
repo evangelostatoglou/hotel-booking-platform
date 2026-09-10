@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { AuthUser, NewUser, findUserByEmail, addUser, FullUser } from "../repositories/user.repository";
+import { AuthUser, NewUser, findUserByEmail, findPublicUserById, addUser, FullUser, PublicUser } from "../repositories/user.repository";
 import { RegisterInput } from "../validators/auth.schemas";
 
 export type AuthenticatedUser = {
@@ -31,6 +31,10 @@ export async function registerUser(input: RegisterInput):Promise<FullUser|null>{
   const passHash = await bcrypt.hash(input.password, 12);
   return addUser(input as NewUser, passHash);
   
+}
+
+export async function getCurrentUser(userId: number): Promise<PublicUser | null> {
+  return findPublicUserById(userId);
 }
 
 

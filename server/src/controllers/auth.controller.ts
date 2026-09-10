@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { loginUser, registerUser as registerUserService } from "../services/auth.service";
+import { getCurrentUser as getCurrentUserService, loginUser, registerUser as registerUserService } from "../services/auth.service";
 import { loginSchema, registerSchema } from "../validators/auth.schemas";
 import { z } from "zod";
 import { createJWT } from "../utils/jwt";
 import { NewUser } from "../repositories/user.repository";
+import { getAuthCookieOptions } from "../utils/auth-cookie";
 
 
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void>{
@@ -22,12 +23,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         }
         const token = createJWT(user);
 
-        res.cookie("access_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV !== "development",
-                sameSite: "lax",
-                maxAge: 60 * 60 * 1000
-            });
+        res.cookie("access_token", token, getAuthCookieOptions());
 
         res.status(200).json({message: "Login successful", user});
 
@@ -39,12 +35,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 
 export function logout(req: Request, res: Response): void{
 
-    res.clearCookie("access_token", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
-        path: "/"
-    });
+    res.clearCookie("access_token", getAuthCookieOptions());
     
     res.status(200).json({message: "Logout OK"});
 };
@@ -55,8 +46,14 @@ export function logout(req: Request, res: Response): void{
 
 
 
-export function getCurrentUser(req: Request, res: Response): void{
-    res.status(200).json({user: res.locals.auth});
+export async function getCurrentUser(req: Request, res: Response): Promise<void>{
+    const user = await getCurrentUserService(res.locals.auth.id);
+    if (!user) {
+        res.status(401).json({ message: "Authentication required" });
+        return;
+    }
+
+    res.status(200).json({ user });
 };
 
 
@@ -81,13 +78,7 @@ export async function registerUser(req: Request, res: Response): Promise<void>{
 
     const token = createJWT(user);
 
-        res.cookie("access_token", token, {
-                httpOnly: true,
-                secure: process.env.NODE_ENV !== "development",
-                sameSite: "lax",
-                maxAge: 60 * 60 * 1000,
-                path: "/"
-            });
+        res.cookie("access_token", token, getAuthCookieOptions());
 
         res.status(201).json({message: "Login successful",
             user: {

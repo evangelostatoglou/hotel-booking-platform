@@ -30,6 +30,10 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
 app.use('/auth', authRouter);
 app.use('/bookings', bookingsRouter);
 app.use('/rooms', roomsRouter);

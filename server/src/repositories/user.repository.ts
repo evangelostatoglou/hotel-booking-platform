@@ -18,6 +18,14 @@ export type NewUser = {
 
 export type FullUser = NewUser & {id: number, role: string, createdAt: Date}
 
+export type PublicUser = {
+  id: number,
+  email: string,
+  role: string | null,
+  firstName: string,
+  lastName: string
+};
+
 export async function findUserByEmail(email: string): Promise<AuthUser | null> {
   const result = await appPool.query<AuthUser>(
     `
@@ -37,6 +45,25 @@ export async function findUserByEmail(email: string): Promise<AuthUser | null> {
 
   return result.rows[0] ?? null;
 };
+
+export async function findPublicUserById(id: number): Promise<PublicUser | null> {
+  const result = await appPool.query<PublicUser>(
+    `
+    SELECT
+      id,
+      email,
+      role,
+      first_name AS "firstName",
+      last_name AS "lastName"
+    FROM users
+    WHERE id = $1
+    LIMIT 1;
+    `,
+    [id]
+  );
+
+  return result.rows[0] ?? null;
+}
 
 export async function addUser(input: NewUser, passHash: string):Promise<FullUser>{
   const result = await appPool.query(

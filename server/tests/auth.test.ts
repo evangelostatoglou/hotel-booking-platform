@@ -35,6 +35,14 @@ describe("Registration API", () => {
       .expect(401);
   });
 
+  test("rejects a request from an untrusted browser origin", async () => {
+    await request(app)
+      .post("/auth/login")
+      .set("Origin", "https://untrusted.example")
+      .send({ email, password })
+      .expect(403);
+  });
+
   test("returns the authenticated user from the JWT cookie", async () => {
     const agent = request.agent(app);
 
@@ -44,6 +52,12 @@ describe("Registration API", () => {
       .expect(200);
 
     const response = await agent.get("/auth/me").expect(200);
-    expect(response.body.user).toMatchObject({ id: expect.any(Number), role: "G" });
+    expect(response.body.user).toMatchObject({
+      id: expect.any(Number),
+      email,
+      firstName: "Test",
+      lastName: "User",
+      role: "G"
+    });
   });
 });

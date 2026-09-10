@@ -1,5 +1,4 @@
 import { BookingDetails, areRoomsAvailable as getAvailableRoomIds, createBooking as createBookingRecord, getAllMyBookings as getBookingRecords } from "../repositories/booking.repository";
-import { InsufficientAvailabilityError } from "../errors";
 import { BookingAvailabilityInput, BookingCreationInput } from "../validators/bookings.schemas";
 
 
@@ -18,14 +17,7 @@ export async function areRoomsAvailable(input: BookingAvailabilityInput, return_
 
 
 export async function createBooking(input: BookingCreationInput, userId: number): Promise<number>{
-
-
-
-    const roomsAvail = await areRoomsAvailable(input);
-    if (!roomsAvail) throw new InsufficientAvailabilityError();
-    
-    const booked = await createBookingRecord(input, userId);
-    return booked;
+    return createBookingRecord(input, userId);
 }
 
 
