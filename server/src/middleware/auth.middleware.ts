@@ -2,7 +2,7 @@ import jwt, {type SignOptions} from "jsonwebtoken";
 import {TokenUser, getJwtDuration, getJwtSecret, verifyJWT} from "../utils/jwt";
 import { NextFunction, Request, Response } from "express";
 
-export function m_requireAuth (req: Request, res: Response, next: NextFunction): void {
+export function requireAuth (req: Request, res: Response, next: NextFunction): void {
   const token = req.cookies.access_token;
 
   if (typeof token !== "string") {

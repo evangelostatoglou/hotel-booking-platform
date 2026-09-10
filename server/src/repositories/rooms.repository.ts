@@ -22,7 +22,7 @@ export type Amenity = {
 export type Room = RoomType & {amenities: Amenity[]} & {images: string[]};
 
 
-export async function db_getAllRoomTypes():Promise<RoomType[]> {
+export async function getAllRoomTypes():Promise<RoomType[]> {
     const result = await appPool.query(
     `
     SELECT
@@ -51,7 +51,7 @@ export async function db_getAllRoomTypes():Promise<RoomType[]> {
 }
 
 
-export async function db_getRoomType(slug: string):Promise<Room | null> {
+export async function getRoomType(slug: string):Promise<Room | null> {
     const temproom = await appPool.query(
     `
     SELECT
@@ -100,7 +100,6 @@ export async function db_getRoomType(slug: string):Promise<Room | null> {
   );
 
   room.imageUrl = images.rows[0]?.imageUrl ?? "";
-  // console.log(room);
 
   return {
     ...room,

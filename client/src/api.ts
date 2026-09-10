@@ -140,20 +140,20 @@ export function logoutUser() {
 }
 
 export function checkBookingAvailability(booking: BookingAvailabilityRequest) {
-  return apiRequest<{ availability: boolean }>("/booking/availability", {
+  return apiRequest<{ availability: boolean }>("/bookings/availability", {
     method: "POST",
     body: booking as unknown as Record<string, unknown>,
   });
 }
 
 export function createBooking(booking: BookingRequest) {
-  return apiRequest<{ message: string; bookingId: number }>("/booking", {
+  return apiRequest<{ message: string; bookingId: number }>("/bookings", {
     method: "POST",
     body: booking as unknown as Record<string, unknown>,
   });
 }
 
 export async function getMyBookings(): Promise<Booking[]> {
-  const data = await apiRequest<{ bookings: Booking[] }>("/booking/me");
+  const data = await apiRequest<{ bookings: Booking[] }>("/bookings/me");
   return data.bookings;
 }

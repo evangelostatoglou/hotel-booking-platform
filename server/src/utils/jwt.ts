@@ -20,7 +20,7 @@ export const getJwtDuration = (): SignOptions["expiresIn"] => {
 
   if (!duration) {
     console.warn("JWT_DURATION is not configured -> SETTING DEFAULT TO 1000H");
-    duration = "1000h";
+    duration = "1h";
   }
 
   return duration as SignOptions["expiresIn"];

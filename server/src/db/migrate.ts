@@ -8,7 +8,6 @@ export async function runMigrations(): Promise<void> {
 
     try {
         await client.query("BEGIN");
-        //create USERS table
         await client.query(`
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -20,9 +19,8 @@ export async function runMigrations(): Promise<void> {
                 created_at TIMESTAMP,
                 role char(1)
             );
-            `);//done
+            `);
 
-        //create BOOKINGS table
         await client.query(`
             CREATE TABLE IF NOT EXISTS bookings (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -38,7 +36,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
 
-            //create PAYMENTS table
             await client.query(`
             CREATE TABLE IF NOT EXISTS payments (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -51,7 +48,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
 
-            //create room_types table
             await client.query(`
             CREATE TABLE IF NOT EXISTS room_types (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -65,7 +61,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
 
-            //create rooms table
             await client.query(`
             CREATE TABLE IF NOT EXISTS rooms (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -75,7 +70,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
 
-            //create bookings_rooms table
             await client.query(`
             CREATE TABLE IF NOT EXISTS bookings_rooms (
                 bookings_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
@@ -84,7 +78,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
             
-            //create amenities table
             await client.query(`
             CREATE TABLE IF NOT EXISTS amenities (
                 id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -93,7 +86,6 @@ export async function runMigrations(): Promise<void> {
             );
             `);
 
-            //create room_types_amenities table
             await client.query(`
             CREATE TABLE IF NOT EXISTS room_types_amenities (
                 room_types_id INTEGER NOT NULL REFERENCES room_types(id),

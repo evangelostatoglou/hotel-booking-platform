@@ -1,5 +1,6 @@
 import { appPool } from "../config/database";
-import { calculateNights } from "../services/booking.service";
+import { CapacityExceededError, InsufficientAvailabilityError, InvalidRoomTypeError } from "../errors";
+import { calculateNights } from "../utils/dates";
 import { BookingAvailabilityInput, BookingCreationInput } from "../validators/bookings.schemas";
 
 export type BookingStatus = "pending" | "confirmed" | "cancelled";
@@ -30,9 +31,7 @@ export type BookingDetails = {
 
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export async function db_areRoomsAvailable(roomTypeId: number, checkIn: string, checkOut: string):Promise<number[]> {
+export async function areRoomsAvailable(roomTypeId: number, checkIn: string, checkOut: string):Promise<number[]> {
     const result = await appPool.query(
     `
     WITH nogoodrooms AS(
@@ -54,18 +53,12 @@ export async function db_areRoomsAvailable(roomTypeId: number, checkIn: string, 
   return result.rows.map(row => row.id);
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-export async function db_createBooking(input: BookingCreationInput, userId: number):Promise<number> {
-    
-    let new_booking_id = -1;
+export async function createBooking(input: BookingCreationInput, userId: number):Promise<number> {
     const client = await appPool.connect();
     const nights = calculateNights(input.checkIn, input.checkOut);
 
     try{
         await client.query("BEGIN");
-/////////////////////////////
         const selectedRoomIds: number[] = [];
 
         let totalAdultCapacity = 0;
@@ -93,8 +86,7 @@ export async function db_createBooking(input: BookingCreationInput, userId: numb
                 roomType.capacityChildren === null ||
                 roomType.price === null
             ) {
-                await client.query("ROLLBACK");
-                return -1; // wrong input
+                throw new InvalidRoomTypeError();
             }
 
             totalAdultCapacity += roomType.capacityAdults * requestedRoom.quantity;
@@ -126,16 +118,14 @@ export async function db_createBooking(input: BookingCreationInput, userId: numb
             );
 
             if (availableRoomsResult.rows.length < requestedRoom.quantity) {
-                await client.query("ROLLBACK");
-                return -2; //not enough rooms available fot this request
+                throw new InsufficientAvailabilityError();
             }
 
             selectedRoomIds.push(...availableRoomsResult.rows.map(room => room.id));
         }
 
         if (input.adults > totalAdultCapacity || input.children > totalChildrenCapacity) {
-            await client.query("ROLLBACK");
-            return -3; //too many adults or children for the chosen rooms
+            throw new CapacityExceededError();
         }
 
         const bookingResult = await client.query<{id: number}>(
@@ -178,8 +168,7 @@ export async function db_createBooking(input: BookingCreationInput, userId: numb
         const booking = bookingResult.rows[0];
 
         if (!booking) {
-            await client.query("ROLLBACK");
-            return -4; //something went wrong in the db
+            throw new Error("Booking insert did not return an ID");
         }
 
         for (const roomId of selectedRoomIds) {
@@ -197,9 +186,8 @@ export async function db_createBooking(input: BookingCreationInput, userId: numb
                 ]
             );
         }
-/////////////////////////////////////////////////////
         await client.query("COMMIT");
-        new_booking_id = booking.id;
+        return booking.id;
     }
     catch (err){
         await client.query("ROLLBACK");
@@ -209,15 +197,10 @@ export async function db_createBooking(input: BookingCreationInput, userId: numb
         client.release();
     }
 
-    return new_booking_id;
-
 }
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-export async function db_getAllMyBookings(userId: number): Promise<BookingDetails[]> {
+export async function getAllMyBookings(userId: number): Promise<BookingDetails[]> {
     
     const result = await appPool.query(
         `
@@ -238,11 +221,6 @@ export async function db_getAllMyBookings(userId: number): Promise<BookingDetail
 
     return result.rows;
 }
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 

@@ -18,7 +18,7 @@ export type NewUser = {
 
 export type FullUser = NewUser & {id: number, role: string, createdAt: Date}
 
-export async function db_findUserByEmail(email: string): Promise<AuthUser | null> {
+export async function findUserByEmail(email: string): Promise<AuthUser | null> {
   const result = await appPool.query<AuthUser>(
     `
     SELECT
@@ -38,7 +38,7 @@ export async function db_findUserByEmail(email: string): Promise<AuthUser | null
   return result.rows[0] ?? null;
 };
 
-export async function db_addUser(input: NewUser, passHash: string):Promise<FullUser>{
+export async function addUser(input: NewUser, passHash: string):Promise<FullUser>{
   const result = await appPool.query(
     `
     INSERT INTO users (

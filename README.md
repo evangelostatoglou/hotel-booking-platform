@@ -256,7 +256,7 @@ A request generally travels through a route and any middleware, then a controlle
 | `db` | Initializes, resets, and seeds the database. |
 | `utils` | Shared helpers such as JWT creation and verification. |
 
-I use prefixes such as `c_`, `s_`, `db_`, and `m_` on many functions to identify the layer they belong to. Some older helpers do not follow this convention yet. Some services are thin because their current job is just to call a repository.
+Function names describe their work directly; the folder and module identify the architectural layer. Some services are thin because their current job is just to call a repository.
 
 ### Authentication and request handling
 
@@ -325,7 +325,7 @@ Guest capacities are checked in total across the selected rooms. The request doe
 
 Base URL for the local setup: `http://localhost:5000`.
 
-The backend booking prefix is **`/booking`**, singular. The frontend also has a `/bookings` page, but that is not the API route.
+The backend booking prefix is **`/bookings`**, matching the bookings resource.
 
 | Method | Endpoint | Authentication | Purpose / response |
 | --- | --- | --- | --- |
@@ -336,9 +336,9 @@ The backend booking prefix is **`/booking`**, singular. The frontend also has a 
 | GET | `/auth/me` | Yes | Returns `{ user: { id, role } }` from the token. |
 | GET | `/rooms` | No | Returns `{ result: [...] }` with room types and one image each. |
 | GET | `/rooms/:slug` | No | Returns `{ result: {...} }` with amenities and images. |
-| POST | `/booking/availability` | No | Returns `{ availability: true }` or `{ availability: false }`. |
-| POST | `/booking` | Yes | Creates a booking; returns `201` and `{ message, bookingId }`. |
-| GET | `/booking/me` | Yes | Returns `{ bookings: [...] }` for the authenticated user. |
+| POST | `/bookings/availability` | No | Returns `{ availability: true }` or `{ availability: false }`. |
+| POST | `/bookings` | Yes | Creates a booking; returns `201` and `{ message, bookingId }`. |
+| GET | `/bookings/me` | Yes | Returns `{ bookings: [...] }` for the authenticated user. |
 
 Room details return `imageUrl` as the main image string and `imageUrls` as an array of `{ imageUrl: string }` objects. Image files are in the client, while the database stores their paths.
 
@@ -358,7 +358,7 @@ Register with `POST /auth/register`:
 
 The current password rules require 8–30 characters, at least one uppercase letter, and at least one number. The phone field is optional. Email validation checks format; there is no email verification flow.
 
-Check availability with `POST /booking/availability`:
+Check availability with `POST /bookings/availability`:
 
 ```json
 {
@@ -373,7 +373,7 @@ Check availability with `POST /booking/availability`:
 
 Use IDs returned by `/rooms` and dates after today. Each room type can appear once, quantities are 1–10, and checkout must be later than check-in.
 
-Create a booking with `POST /booking` using the authentication cookie:
+Create a booking with `POST /bookings` using the authentication cookie:
 
 ```json
 {

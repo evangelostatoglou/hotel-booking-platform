@@ -1,12 +1,12 @@
-import { db_getAllRoomTypes, db_getRoomType } from "../repositories/rooms.repository";
+import { getAllRoomTypes as getAllRoomTypeRecords, getRoomType as getRoomTypeRecord } from "../repositories/rooms.repository";
 
-export async function s_getAllRoomTypes(){
-    return await db_getAllRoomTypes();
+export async function getAllRoomTypes(){
+    return await getAllRoomTypeRecords();
 }
 
 
-export async function s_getRoomType(slug: string){
-    return await db_getRoomType(slug);
+export async function getRoomType(slug: string){
+    return await getRoomTypeRecord(slug);
 }
 
 

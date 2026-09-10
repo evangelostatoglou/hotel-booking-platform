@@ -1,28 +1,15 @@
-import { BookingDetails, db_areRoomsAvailable, db_createBooking as db_createBooking, db_getAllMyBookings } from "../repositories/booking.repository";
+import { BookingDetails, areRoomsAvailable as getAvailableRoomIds, createBooking as createBookingRecord, getAllMyBookings as getBookingRecords } from "../repositories/booking.repository";
+import { InsufficientAvailabilityError } from "../errors";
 import { BookingAvailabilityInput, BookingCreationInput } from "../validators/bookings.schemas";
 
-export function calculateNights(checkIn: string, checkOut: string): number {
-
-  const start = Date.parse(
-    `${checkIn}T00:00:00Z`
-  );
-
-  const end = Date.parse(
-    `${checkOut}T00:00:00Z`
-  );
-
-  return Math.round(
-    (end - start) / (1000 * 60 * 60 * 24)
-  );
-}
 
 
-export async function s_areRoomsAvailable(input: BookingAvailabilityInput, return_array?: boolean): Promise<boolean | number[]>{
+export async function areRoomsAvailable(input: BookingAvailabilityInput, return_array?: boolean): Promise<boolean | number[]>{
     
     let temp;
     for(let i=0 ; i<input.rooms.length ; i++){
-        temp = await db_areRoomsAvailable(input.rooms[i].roomTypeId, input.checkIn, input.checkOut);
-        if (return_array) return temp; // optional use of the function to see for only 1 roomt type
+        temp = await getAvailableRoomIds(input.rooms[i].roomTypeId, input.checkIn, input.checkOut);
+        if (return_array) return temp;
         if(temp.length < input.rooms[i].quantity) return false;
     }
 
@@ -30,21 +17,21 @@ export async function s_areRoomsAvailable(input: BookingAvailabilityInput, retur
 }
 
 
-export async function s_createBooking(input: BookingCreationInput, userId: number): Promise<number>{
+export async function createBooking(input: BookingCreationInput, userId: number): Promise<number>{
 
 
 
-    const roomsAvail = await s_areRoomsAvailable(input);
-    if (!roomsAvail) return -2;
+    const roomsAvail = await areRoomsAvailable(input);
+    if (!roomsAvail) throw new InsufficientAvailabilityError();
     
-    const booked = await db_createBooking(input, userId);
+    const booked = await createBookingRecord(input, userId);
     return booked;
 }
 
 
-export async function s_getAllMyBookings(userId: number): Promise<BookingDetails[]> {
+export async function getAllMyBookings(userId: number): Promise<BookingDetails[]> {
 
-  return db_getAllMyBookings(userId);
+  return getBookingRecords(userId);
   
 }
 

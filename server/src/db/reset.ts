@@ -8,7 +8,6 @@ export async function resetDb(): Promise<void>{
     try{
         await client.query("BEGIN");
 
-        //reset all tables
         await client.query(`
             TRUNCATE TABLE
                 bookings,
@@ -19,7 +18,7 @@ export async function resetDb(): Promise<void>{
                 room_type_images
                 RESTART IDENTITY
                 CASCADE;
-            `);//done
+            `);
 
         await client.query("COMMIT");
 
